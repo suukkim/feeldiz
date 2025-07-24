@@ -370,6 +370,97 @@
             margin-bottom: 0;
         }
         
+        .contact-section {
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+        
+        .contact-content {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            gap: 40px;
+            max-width: 900px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .contact-btn {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 300px;
+            cursor: pointer;
+        }
+        
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 300% 100%;
+            animation: gradient-slide 3s ease infinite;
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+        
+        .email-btn:hover {
+            border-color: rgba(255, 107, 107, 0.6);
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.1), rgba(255, 107, 107, 0.05));
+        }
+        
+        .phone-btn:hover {
+            border-color: rgba(78, 205, 196, 0.6);
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.1), rgba(78, 205, 196, 0.05));
+        }
+        
+        .btn-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .btn-text {
+            flex: 1;
+        }
+        
+        .btn-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-subtitle {
+            font-size: 1rem;
+            color: #b0b0b0;
+            font-weight: 400;
+        }
+        
         @media (max-width: 768px) {
             .credentials {
                 flex-direction: row;
@@ -430,6 +521,35 @@
             .facility-section {
                 margin-top: 40px;
                 margin-bottom: 60px;
+            }
+            
+            .contact-section {
+                margin-top: 40px;
+                margin-bottom: 60px;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 10px;
+            }
+            
+            .contact-btn {
+                min-width: auto;
+                padding: 25px 20px;
+                margin: 0;
+            }
+            
+            .btn-icon {
+                font-size: 2rem;
+            }
+            
+            .btn-title {
+                font-size: 1.1rem;
+            }
+            
+            .btn-subtitle {
+                font-size: 0.9rem;
             }
         }
         
@@ -616,6 +736,30 @@
                                     오차 없이 모든 매체 아웃풋이 가능합니다.
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-section">
+                    <h2 class="section-title">Contact</h2>
+                    
+                    <div class="contact-content">
+                        <div class="contact-buttons">
+                            <a href="mailto:feeldiz.studio.di@gmail.com" class="contact-btn email-btn">
+                                <div class="btn-icon">✉️</div>
+                                <div class="btn-text">
+                                    <div class="btn-title">문의하기</div>
+                                    <div class="btn-subtitle">feeldiz.studio.di@gmail.com</div>
+                                </div>
+                            </a>
+                            
+                            <a href="tel:010-7334-3480" class="contact-btn phone-btn">
+                                <div class="btn-icon">📞</div>
+                                <div class="btn-text">
+                                    <div class="btn-title">연락처</div>
+                                    <div class="btn-subtitle">010-7334-3480</div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
