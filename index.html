@@ -126,7 +126,7 @@
             font-family: 'Inter', sans-serif;
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -134,6 +134,28 @@
             line-height: 1.2;
             text-align: center;
             letter-spacing: -0.02em;
+        }
+        
+        .website-link-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .website-link {
+            font-size: 1rem;
+            color: #b0b0b0;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(176, 176, 176, 0.3);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        
+        .website-link:hover {
+            color: #4ecdc4;
+            border-bottom-color: #4ecdc4;
+            transform: translateY(-1px);
         }
         
         .works-section {
@@ -155,6 +177,51 @@
             display: grid;
             gap: 30px;
             margin-bottom: 60px;
+        }
+        
+        .work-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+        }
+        
+        .work-link::after {
+            content: '🔗 클릭 시 이동';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.95), rgba(255, 139, 83, 0.95));
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .work-link:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        
+        .work-link:hover .work-item {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 107, 107, 0.5);
+            filter: brightness(0.7);
+        }
+        
+        .work-link .work-item {
+            cursor: pointer;
+            transition: all 0.4s ease;
         }
         
         .work-item {
@@ -551,6 +618,10 @@
             .btn-subtitle {
                 font-size: 0.9rem;
             }
+            
+            .website-link {
+                font-size: 0.9rem;
+            }
         }
         
         .floating-elements {
@@ -639,16 +710,24 @@
                 
                 <h1 class="main-title">Feeldiz DI STUDIO</h1>
                 
+                <div class="website-link-container">
+                    <a href="https://www.seoulmovieworks.co.kr/feeldiz" target="_blank" class="website-link">
+                        website
+                    </a>
+                </div>
+                
                 <div class="works-section">
                     <h2 class="section-title">Our Work</h2>
                     
                     <div class="works-grid">
-                        <div class="work-item featured">
-                            <div class="featured-tag">Featured</div>
-                            <div class="work-year">2025</div>
-                            <div class="work-title">JTBC/Disney 드라마 [착한사나이]</div>
-                            <div class="work-details">이동욱 • 이성경 주연</div>
-                        </div>
+                        <a href="https://tv.jtbc.co.kr/theniceguy" target="_blank" class="work-link">
+                            <div class="work-item featured">
+                                <div class="featured-tag">Featured</div>
+                                <div class="work-year">2025</div>
+                                <div class="work-title">JTBC/Disney 드라마 [착한사나이]</div>
+                                <div class="work-details">이동욱 • 이성경 주연</div>
+                            </div>
+                        </a>
                         
                         <div class="work-item featured">
                             <div class="featured-tag">Featured</div>
