@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Color Grading Studio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 95vw;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+        
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(199, 125, 255, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        
+        .credentials {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 60px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .credential-badge {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px 15px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            flex: 1;
+            min-width: 100px;
+            max-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .credential-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .credential-badge:hover::before {
+            left: 100%;
+        }
+        
+        .credential-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+        
+        .credential-text {
+            font-weight: 700;
+            font-size: clamp(14px, 3vw, 20px);
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        .main-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+        
+        .works-section {
+            margin-top: 80px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .works-grid {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .work-item {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .work-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #c77dff);
+            background-size: 300% 100%;
+            animation: gradient-slide 3s ease infinite;
+        }
+        
+        @keyframes gradient-slide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .work-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        
+        .work-item.featured {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .work-item.featured::before {
+            height: 6px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        }
+        
+        .work-year {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4ecdc4;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .work-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        
+        .work-details {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            font-weight: 400;
+        }
+        
+        .featured-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .continuing-text {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            font-style: italic;
+            margin-top: 40px;
+            margin-bottom: 80px;
+            padding: 30px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .colorist-section {
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+        
+        .colorist-content {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .colorist-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .colorist-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #c77dff);
+            background-size: 300% 100%;
+            animation: gradient-slide 4s ease infinite;
+        }
+        
+        .colorist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+        
+        .colorist-intro {
+            line-height: 1.8;
+        }
+        
+        .colorist-text {
+            font-size: 1.1rem;
+            color: #d0d0d0;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+        
+        .colorist-text:last-child {
+            margin-bottom: 0;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        .facility-section {
+            margin-top: 60px;
+            margin-bottom: 80px;
+        }
+        
+        .facility-content {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .facility-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .facility-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #45b7d1, #4ecdc4, #ff6b6b, #c77dff);
+            background-size: 300% 100%;
+            animation: gradient-slide 4s ease infinite;
+        }
+        
+        .facility-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border-color: rgba(69, 183, 209, 0.3);
+        }
+        
+        .facility-intro {
+            line-height: 1.8;
+        }
+        
+        .facility-text {
+            font-size: 1.1rem;
+            color: #d0d0d0;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+        
+        .facility-text:last-child {
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .credentials {
+                flex-direction: row;
+                gap: 10px;
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            .credential-badge {
+                padding: 15px 10px;
+                min-width: 70px;
+                max-width: 90px;
+            }
+            
+            .work-item {
+                padding: 25px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .colorist-card {
+                padding: 30px 25px;
+                margin: 0 10px;
+            }
+            
+            .colorist-text {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .continuing-text {
+                margin-bottom: 60px;
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+            
+            .colorist-section {
+                margin-top: 40px;
+                margin-bottom: 60px;
+            }
+            
+            .facility-card {
+                padding: 30px 25px;
+                margin: 0 10px;
+            }
+            
+            .facility-text {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .facility-section {
+                margin-top: 40px;
+                margin-bottom: 60px;
+            }
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1), transparent);
+            animation: float-circle 15s infinite ease-in-out;
+        }
+        
+        .floating-circle:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-circle:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1), transparent);
+            animation-delay: 5s;
+        }
+        
+        .floating-circle:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 20%;
+            background: radial-gradient(circle, rgba(199, 125, 255, 0.1), transparent);
+            animation-delay: 10s;
+        }
+        
+        @keyframes float-circle {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0.3;
+            }
+            33% { 
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+                opacity: 0.6;
+            }
+            66% { 
+                transform: translateY(20px) translateX(-15px) scale(0.9);
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+    </div>
+    
+    <div class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="credentials">
+                    <div class="credential-badge">
+                        <div class="credential-text">Cinema</div>
+                    </div>
+                    <div class="credential-badge">
+                        <div class="credential-text">Drama</div>
+                    </div>
+                    <div class="credential-badge">
+                        <div class="credential-text">TV/CF</div>
+                    </div>
+                    <div class="credential-badge">
+                        <div class="credential-text">HDR</div>
+                    </div>
+                </div>
+                
+                <div class="facility-section">
+                    <h2 class="section-title">Facility</h2>
+                    
+                    <div class="facility-content">
+                        <div class="facility-card">
+                            <div class="facility-intro">
+                                <p class="facility-text">
+                                    <span class="highlight">Barco 4K DLP</span>를 보유하여 
+                                    극장과 동일한 시설을 제공합니다.
+                                </p>
+                                <p class="facility-text">
+                                    <span class="highlight">LG에서 제공받는 OLED 레퍼런스 모니터</span>로 
+                                    오차 없이 모든 매체 아웃풋이 가능합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h1 class="main-title">Feeldiz DI STUDIO</h1>
+                
+                <div class="works-section">
+                    <h2 class="section-title">Our Work</h2>
+                    
+                    <div class="works-grid">
+                        <div class="work-item featured">
+                            <div class="featured-tag">Featured</div>
+                            <div class="work-year">2025</div>
+                            <div class="work-title">JTBC/Disney 드라마 [착한사나이]</div>
+                            <div class="work-details">이동욱 • 이성경 주연</div>
+                        </div>
+                        
+                        <div class="work-item featured">
+                            <div class="featured-tag">Featured</div>
+                            <div class="work-year">2025</div>
+                            <div class="work-title">상업영화 [베란다]</div>
+                            <div class="work-details">전소민 주연</div>
+                        </div>
+                        
+                        <div class="work-item">
+                            <div class="work-year">2025</div>
+                            <div class="work-title">독립장편 [그릇된 소녀]</div>
+                            <div class="work-details">육광수 감독</div>
+                        </div>
+                        
+                        <div class="work-item">
+                            <div class="work-year">2025</div>
+                            <div class="work-title">독립장편 [비밀일수밖에]</div>
+                            <div class="work-details">김대환 감독</div>
+                        </div>
+                        
+                        <div class="work-item">
+                            <div class="work-year">2025</div>
+                            <div class="work-title">독립장편 [로망스]</div>
+                            <div class="work-details">한만택 감독</div>
+                        </div>
+                        
+                        <div class="work-item">
+                            <div class="work-year">2023</div>
+                            <div class="work-title">상업영화 [가문의 영광 : 리턴즈]</div>
+                            <div class="work-details"></div>
+                        </div>
+                        
+                        <div class="work-item">
+                            <div class="work-year">2023</div>
+                            <div class="work-title">영화 [만추] 리마스터 DI</div>
+                            <div class="work-details"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="continuing-text">
+                        등 작업을 이어나가고 있습니다.
+                    </div>
+                </div>
+                
+                <div class="colorist-section">
+                    <h2 class="section-title">Colorist</h2>
+                    
+                    <div class="colorist-content">
+                        <div class="colorist-card">
+                            <div class="colorist-intro">
+                                <p class="colorist-text">
+                                    영상의 감정과 분위기를 결정하는 컬러 그레이딩을 통해 
+                                    <span class="highlight">창작자의 비전을 완성</span>합니다.
+                                </p>
+                                <p class="colorist-text">
+                                    드라마부터 영화 등 다양한 장르에서 쌓아온 경험으로 
+                                    최고의 결과물을 만들어냅니다.
+                                </p>
+                                <p class="colorist-text">
+                                    <span class="highlight">Dolby Vision HDR</span> 인증 시설에서 
+                                    정교한 색 보정과 톤 매핑을 통해 
+                                    완벽한 시각적 경험을 제공합니다.
+                                </p>
+                                <p class="colorist-text">
+                                    <span class="highlight">국제컬러리스트협회 소속</span> 컬러리스트가 
+                                    책임지고 최상의 결과물을 만들어 내드립니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
