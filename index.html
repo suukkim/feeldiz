@@ -32,7 +32,11 @@
             display: flex;
             align-items: center;
             position: relative;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            background: 
+                radial-gradient(ellipse at top left, rgba(139, 69, 19, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at top right, rgba(75, 0, 130, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, rgba(25, 25, 112, 0.1) 0%, transparent 60%),
+                linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0f0f0f 100%);
             overflow: hidden;
         }
         
@@ -44,16 +48,35 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(199, 125, 255, 0.1) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+                linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.01) 25%, rgba(255, 255, 255, 0.01) 75%, transparent 75%);
+            animation: subtle-float 25s ease-in-out infinite;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(1deg); }
-            66% { transform: translateY(10px) rotate(-1deg); }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: calc(100% + 200px);
+            height: calc(100% + 200px);
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(138, 43, 226, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(70, 130, 180, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 20% 70%, rgba(205, 133, 63, 0.03) 0%, transparent 40%);
+            animation: aurora-flow 40s linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes subtle-float {
+            0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+            33% { transform: translate(-5px, -10px) rotate(0.3deg); }
+            66% { transform: translate(5px, -5px) rotate(-0.3deg); }
+        }
+        
+        @keyframes aurora-flow {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(360deg) scale(1.1); }
         }
         
         .hero-content {
@@ -106,8 +129,10 @@
         
         .credential-badge:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 107, 107, 0.5);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 0, 150, 0.3);
+            border-color: rgba(255, 0, 150, 0.5);
         }
         
         .credential-text {
@@ -153,9 +178,10 @@
         }
         
         .website-link:hover {
-            color: #4ecdc4;
-            border-bottom-color: #4ecdc4;
+            color: #00ffff;
+            border-bottom-color: #00ffff;
             transform: translateY(-1px);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
         
         .works-section {
@@ -272,7 +298,7 @@
         .work-year {
             font-size: 14px;
             font-weight: 500;
-            color: #4ecdc4;
+            color: #4682B4;
             margin-bottom: 8px;
             letter-spacing: 1px;
         }
@@ -294,7 +320,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            background: linear-gradient(135deg, #ff0096, #ff6400);
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -302,6 +328,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(255, 0, 150, 0.3);
         }
         
         .continuing-text {
@@ -485,6 +512,73 @@
             cursor: pointer;
         }
         
+        .contact-image-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-image-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8A2BE2, #4682B4, #CD853F);
+            background-size: 300% 100%;
+            animation: gradient-slide 4s ease infinite;
+        }
+        
+        .contact-image-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 5px 20px rgba(138, 43, 226, 0.2);
+            border-color: rgba(138, 43, 226, 0.5);
+        }
+        
+        .contact-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-image-card:hover .contact-image {
+            transform: scale(1.05);
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, 
+                rgba(138, 43, 226, 0.1), 
+                rgba(70, 130, 180, 0.08)
+            );
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .placeholder-content {
+            padding: 20px;
+        }
+        
         .contact-btn::before {
             content: '';
             position: absolute;
@@ -539,105 +633,228 @@
             font-weight: 400;
         }
         
+        /* 모바일 최적화 - 간결하고 컴팩트한 디자인 */
         @media (max-width: 768px) {
-            .credentials {
-                flex-direction: row;
-                gap: 10px;
-                margin-top: 20px;
-                justify-content: center;
-            }
-            
-            .credential-badge {
-                padding: 15px 10px;
-                min-width: 70px;
-                max-width: 90px;
-            }
-            
-            .work-item {
-                padding: 25px;
-            }
-            
-            .section-title {
-                font-size: 2rem;
+            body {
+                line-height: 1.4;
             }
             
             .container {
-                padding: 0 20px;
+                padding: 0 15px;
             }
             
-            .colorist-card {
-                padding: 30px 25px;
-                margin: 0 10px;
+            /* Credentials 섹션 간소화 */
+            .credentials {
+                gap: 8px;
+                margin-bottom: 30px;
+                margin-top: 20px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
             }
             
-            .colorist-text {
-                font-size: 1rem;
-                margin-bottom: 20px;
+            .credentials::-webkit-scrollbar {
+                display: none;
             }
             
-            .continuing-text {
-                margin-bottom: 60px;
-                padding: 20px;
+            .credential-badge {
+                padding: 10px 12px;
+                min-width: 65px;
+                max-width: 75px;
+                flex: 0 0 auto;
+                border-radius: 12px;
+            }
+            
+            .credential-text {
+                font-size: 12px;
+                font-weight: 600;
+            }
+            
+            /* 메인 타이틀 */
+            .main-title {
+                margin-bottom: 15px;
+                line-height: 1.1;
+            }
+            
+            /* 웹사이트 링크 */
+            .website-link-container {
+                margin-bottom: 25px;
+            }
+            
+            .website-link {
+                font-size: 0.85rem;
+            }
+            
+            /* Works 섹션 간소화 */
+            .works-section {
+                margin-top: 40px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+            
+            .works-grid {
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+            
+            .work-item {
+                padding: 18px;
+                border-radius: 15px;
+            }
+            
+            .work-year {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+            
+            .work-title {
                 font-size: 1.1rem;
+                margin-bottom: 6px;
+                line-height: 1.3;
             }
             
-            .colorist-section {
-                margin-top: 40px;
-                margin-bottom: 60px;
+            .work-details {
+                font-size: 0.95rem;
+                line-height: 1.3;
             }
             
-            .facility-card {
-                padding: 30px 25px;
-                margin: 0 10px;
+            .featured-tag {
+                top: 12px;
+                right: 12px;
+                padding: 6px 12px;
+                font-size: 10px;
+                border-radius: 15px;
             }
             
-            .facility-text {
+            /* Continuing text 간소화 */
+            .continuing-text {
+                margin-top: 25px;
+                margin-bottom: 40px;
+                padding: 18px;
                 font-size: 1rem;
-                margin-bottom: 20px;
+                line-height: 1.4;
             }
             
-            .facility-section {
-                margin-top: 40px;
-                margin-bottom: 60px;
+            /* Colorist 섹션 간소화 */
+            .colorist-section, .facility-section, .contact-section {
+                margin-top: 35px;
+                margin-bottom: 40px;
             }
             
-            .contact-section {
-                margin-top: 40px;
-                margin-bottom: 60px;
+            .colorist-card, .facility-card {
+                padding: 20px;
+                margin: 0 5px;
+                border-radius: 18px;
             }
             
+            .colorist-text, .facility-text {
+                font-size: 0.95rem;
+                margin-bottom: 15px;
+                line-height: 1.5;
+            }
+            
+            .colorist-intro, .facility-intro {
+                line-height: 1.5;
+            }
+            
+            /* Facility specs 간소화 */
+            .facility-specs {
+                font-size: 0.95rem !important;
+                padding: 12px;
+                margin-top: 20px !important;
+                line-height: 1.3;
+            }
+            
+            /* Contact 섹션 간소화 */
             .contact-buttons {
                 flex-direction: column;
-                gap: 20px;
-                padding: 0 10px;
+                gap: 15px;
+                padding: 0 5px;
             }
             
             .contact-btn {
                 min-width: auto;
-                padding: 25px 20px;
-                margin: 0;
+                padding: 20px 18px;
+                border-radius: 15px;
+                gap: 15px;
             }
             
             .btn-icon {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .btn-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
+                margin-bottom: 3px;
             }
             
             .btn-subtitle {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+                line-height: 1.2;
             }
             
-            .website-link {
-                font-size: 0.9rem;
+            /* 호버 효과 간소화 (모바일에서는 불필요) */
+            .work-link::after {
+                display: none;
             }
             
-            .facility-specs {
-                font-size: 1rem !important;
+            .work-item:hover,
+            .colorist-card:hover,
+            .facility-card:hover,
+            .contact-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .credential-badge:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+        
+        /* 더 작은 모바일 화면 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 12px;
+            }
+            
+            .credential-badge {
+                padding: 8px 10px;
+                min-width: 60px;
+                max-width: 68px;
+            }
+            
+            .credential-text {
+                font-size: 11px;
+            }
+            
+            .work-item {
                 padding: 15px;
-                margin-top: 25px !important;
+            }
+            
+            .work-title {
+                font-size: 1rem;
+            }
+            
+            .work-details {
+                font-size: 0.9rem;
+            }
+            
+            .colorist-card, .facility-card {
+                padding: 18px;
+            }
+            
+            .colorist-text, .facility-text {
+                font-size: 0.9rem;
+                margin-bottom: 12px;
+            }
+            
+            .contact-btn {
+                padding: 18px 15px;
             }
         }
         
@@ -649,59 +866,112 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
         
         .floating-circle {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 107, 107, 0.1), transparent);
-            animation: float-circle 15s infinite ease-in-out;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(138, 43, 226, 0.12) 0%, 
+                rgba(70, 130, 180, 0.08) 40%,
+                transparent 70%
+            );
+            animation: organic-float 25s infinite ease-in-out;
+            filter: blur(2px);
         }
         
         .floating-circle:nth-child(1) {
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 150px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
             top: 10%;
-            left: 10%;
+            left: 15%;
             animation-delay: 0s;
         }
         
         .floating-circle:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            top: 60%;
+            width: 300px;
+            height: 200px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 50%;
             right: 10%;
-            background: radial-gradient(circle, rgba(78, 205, 196, 0.1), transparent);
-            animation-delay: 5s;
+            background: radial-gradient(ellipse at 70% 70%, 
+                rgba(70, 130, 180, 0.1) 0%, 
+                rgba(205, 133, 63, 0.06) 40%,
+                transparent 70%
+            );
+            animation-delay: 8s;
         }
         
         .floating-circle:nth-child(3) {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 180px;
+            border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
             bottom: 20%;
-            left: 20%;
-            background: radial-gradient(circle, rgba(199, 125, 255, 0.1), transparent);
-            animation-delay: 10s;
+            left: 25%;
+            background: radial-gradient(ellipse at 40% 60%, 
+                rgba(205, 133, 63, 0.08) 0%, 
+                rgba(138, 43, 226, 0.05) 40%,
+                transparent 70%
+            );
+            animation-delay: 16s;
         }
         
-        @keyframes float-circle {
+        .floating-circle:nth-child(4) {
+            width: 80px;
+            height: 120px;
+            border-radius: 50% 50% 80% 20% / 25% 75% 25% 75%;
+            top: 35%;
+            left: 65%;
+            animation-delay: 5s;
+        }
+        
+        .floating-circle:nth-child(5) {
+            width: 250px;
+            height: 160px;
+            border-radius: 40% 60% 60% 40% / 70% 30% 70% 30%;
+            bottom: 15%;
+            right: 25%;
+            background: radial-gradient(ellipse at 60% 40%, 
+                rgba(70, 130, 180, 0.06) 0%, 
+                rgba(138, 43, 226, 0.08) 50%,
+                transparent 80%
+            );
+            animation-delay: 12s;
+        }
+        
+        @keyframes organic-float {
             0%, 100% { 
-                transform: translateY(0px) translateX(0px) scale(1);
-                opacity: 0.3;
+                transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);
+                opacity: 0.4;
             }
-            33% { 
-                transform: translateY(-30px) translateX(20px) scale(1.1);
+            25% { 
+                transform: translateY(-20px) translateX(15px) scale(1.1) rotate(10deg);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateY(-10px) translateX(-10px) scale(0.9) rotate(-5deg);
+                opacity: 0.5;
+            }
+            75% { 
+                transform: translateY(15px) translateX(5px) scale(1.05) rotate(15deg);
                 opacity: 0.6;
             }
-            66% { 
-                transform: translateY(20px) translateX(-15px) scale(0.9);
-                opacity: 0.4;
+        }
+        
+        /* 모바일에서 floating elements 숨기기 (성능 최적화) */
+        @media (max-width: 768px) {
+            .floating-elements {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
     <div class="floating-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
         <div class="floating-circle"></div>
         <div class="floating-circle"></div>
         <div class="floating-circle"></div>
@@ -737,7 +1007,7 @@
                     <h2 class="section-title">Our Work</h2>
                     
                     <div class="works-grid">
-                        <a href="https://tv.jtbc.co.kr/plan/pr10011835" target="_blank" class="work-link">
+                        <a href="https://tv.jtbc.co.kr/theniceguy" target="_blank" class="work-link">
                             <div class="work-item featured">
                                 <div class="featured-tag">Featured</div>
                                 <div class="work-year">2025</div>
