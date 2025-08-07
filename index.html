@@ -1141,3 +1141,1256 @@
     </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeldiz DI STUDIO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #1E1E1E;
+            color: #FEFFF8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        /* 스크롤바 숨기기 */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 첫 번째 섹션 - 스크롤로 커지는 회사명 */
+        .intro-section {
+            height: 300vh; /* 3배 높이로 설정하여 충분한 스크롤 공간 확보 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #1E1E1E;
+            overflow: hidden;
+        }
+
+        .company-name {
+            font-size: 2rem;
+            font-weight: 100;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #FEFFF8;
+            opacity: 1;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            z-index: 100;
+            transition: font-size 0.1s ease-out;
+        }
+
+        /* 스크롤 진행률 표시 */
+        .scroll-progress {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #FEFFF8;
+            font-size: 14px;
+            font-weight: 300;
+            opacity: 0.5;
+            z-index: 101;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 화면 전환 오버레이 */
+        .transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1E1E1E;
+            z-index: 99;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        .transition-overlay.active {
+            opacity: 1;
+        }
+
+        /* 두 번째 섹션 - 주사위 애니메이션 */
+        .logo-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #FEFFF8;
+            overflow: hidden;
+        }
+
+        .dice-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .dice {
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            transform-style: preserve-3d;
+            animation: diceSequence 4s ease-in-out forwards;
+        }
+
+        .dice.active {
+            animation: diceSequence 4s ease-in-out forwards;
+        }
+
+        .dice-face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #1E1E1E;
+            border: 2px solid #1E1E1E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #FEFFF8;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        .dice-face.front { transform: rotateY(0deg) translateZ(50px); }
+        .dice-face.back { transform: rotateY(180deg) translateZ(50px); }
+        .dice-face.right { transform: rotateY(90deg) translateZ(50px); }
+        .dice-face.left { transform: rotateY(-90deg) translateZ(50px); }
+        .dice-face.top { transform: rotateX(90deg) translateZ(50px); }
+        .dice-face.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+        /* 주사위 점 패턴 */
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #FEFFF8;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .dice-face.one .dot { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        
+        .dice-face.two .dot:nth-child(1) { top: 25%; left: 25%; }
+        .dice-face.two .dot:nth-child(2) { bottom: 25%; right: 25%; }
+
+        .dice-face.three .dot:nth-child(1) { top: 25%; left: 25%; }
+        .dice-face.three .dot:nth-child(2) { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .dice-face.three .dot:nth-child(3) { bottom: 25%; right: 25%; }
+
+        .dice-face.four .dot:nth-child(1) { top: 25%; left: 25%; }
+        .dice-face.four .dot:nth-child(2) { top: 25%; right: 25%; }
+        .dice-face.four .dot:nth-child(3) { bottom: 25%; left: 25%; }
+        .dice-face.four .dot:nth-child(4) { bottom: 25%; right: 25%; }
+
+        .dice-face.five .dot:nth-child(1) { top: 25%; left: 25%; }
+        .dice-face.five .dot:nth-child(2) { top: 25%; right: 25%; }
+        .dice-face.five .dot:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .dice-face.five .dot:nth-child(4) { bottom: 25%; left: 25%; }
+        .dice-face.five .dot:nth-child(5) { bottom: 25%; right: 25%; }
+
+        .dice-face.six .dot:nth-child(1) { top: 25%; left: 25%; }
+        .dice-face.six .dot:nth-child(2) { top: 25%; right: 25%; }
+        .dice-face.six .dot:nth-child(3) { top: 50%; left: 25%; }
+        .dice-face.six .dot:nth-child(4) { top: 50%; right: 25%; }
+        .dice-face.six .dot:nth-child(5) { bottom: 25%; left: 25%; }
+        .dice-face.six .dot:nth-child(6) { bottom: 25%; right: 25%; }
+
+        /* 주사위 애니메이션 시퀀스 - 더 현실적인 바운스 */
+        @keyframes diceSequence {
+            0% {
+                transform: translateX(-50%) translateY(-200px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                opacity: 1;
+            }
+            /* 첫 번째 바운스 */
+            15% {
+                transform: translateX(-50%) translateY(200px) rotateX(360deg) rotateY(180deg) rotateZ(90deg);
+            }
+            20% {
+                transform: translateX(-50%) translateY(120px) rotateX(450deg) rotateY(270deg) rotateZ(180deg);
+            }
+            /* 두 번째 바운스 */
+            30% {
+                transform: translateX(-50%) translateY(200px) rotateX(720deg) rotateY(450deg) rotateZ(270deg);
+            }
+            35% {
+                transform: translateX(-50%) translateY(80px) rotateX(810deg) rotateY(540deg) rotateZ(360deg);
+            }
+            /* 세 번째 바운스 */
+            45% {
+                transform: translateX(-50%) translateY(200px) rotateX(1080deg) rotateY(720deg) rotateZ(450deg);
+            }
+            50% {
+                transform: translateX(-50%) translateY(50px) rotateX(1170deg) rotateY(810deg) rotateZ(540deg);
+            }
+            /* 네 번째 바운스 (마지막) */
+            60% {
+                transform: translateX(-50%) translateY(200px) rotateX(1440deg) rotateY(1080deg) rotateZ(720deg);
+            }
+            65% {
+                transform: translateX(-50%) translateY(190px) rotateX(1480deg) rotateY(1120deg) rotateZ(740deg);
+                opacity: 1;
+            }
+            /* 폭발 준비 */
+            70% {
+                transform: translateX(-50%) translateY(190px) rotateX(1480deg) rotateY(1120deg) rotateZ(740deg) scale(1.2);
+                opacity: 0.8;
+            }
+            /* 폭발 */
+            75% {
+                transform: translateX(-50%) translateY(190px) rotateX(1480deg) rotateY(1120deg) rotateZ(740deg) scale(2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateX(-50%) translateY(190px) rotateX(1480deg) rotateY(1120deg) rotateZ(740deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* 폭발 효과 */
+        .explosion {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .explosion.active {
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(2);
+                box-shadow: 
+                    0 0 50px 20px rgba(255, 165, 0, 0.8),
+                    0 0 100px 40px rgba(255, 69, 0, 0.6),
+                    0 0 150px 60px rgba(255, 0, 0, 0.4);
+                background: radial-gradient(circle, 
+                    rgba(255, 255, 0, 1) 0%, 
+                    rgba(255, 165, 0, 0.8) 30%, 
+                    rgba(255, 69, 0, 0.5) 60%, 
+                    transparent 100%);
+                border-radius: 50%;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(4);
+                box-shadow: none;
+                background: transparent;
+            }
+        }
+
+        /* 폭발 후 나타나는 텍스트 */
+        .logo-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            font-weight: 100;
+            color: #1E1E1E;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .logo-text.active {
+            animation: textReveal 1.5s ease-out 0.5s forwards;
+        }
+
+        @keyframes textReveal {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+                filter: blur(20px);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1.1);
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+                filter: blur(0px);
+            }
+        }
+
+        /* 파티클 효과 */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #1E1E1E;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .particle.active {
+            animation: particleExplode 1.5s ease-out forwards;
+        }
+
+        @keyframes particleExplode {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translate(var(--dx), var(--dy));
+            }
+        }
+
+        /* 세 번째 섹션 - Our Works */
+        .works-section {
+            min-height: 100vh;
+            background: #1E1E1E;
+            padding: 100px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .works-title {
+            font-size: clamp(4rem, 10vw, 12rem);
+            font-weight: 100;
+            color: #FEFFF8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+
+        .works-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .work-item {
+            background: transparent;
+            border: 1px solid #FEFFF8;
+            padding: 40px;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .work-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #FEFFF8;
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .work-item:hover::before {
+            left: 0;
+        }
+
+        .work-item:hover {
+            color: #1E1E1E;
+            border-color: #1E1E1E;
+            transform: translateY(-10px);
+        }
+
+        .work-year {
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .work-title {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .work-description {
+            font-size: 16px;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        /* 네 번째 섹션 - 컬러리스트 */
+        .colorist-section {
+            min-height: 100vh;
+            background: #FEFFF8;
+            color: #1E1E1E;
+            padding: 100px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .colorist-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 100;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease-out;
+        }
+
+        .colorist-title.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .colorist-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+
+        .colorist-item {
+            border: 1px solid #1E1E1E;
+            padding: 40px;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .colorist-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #1E1E1E;
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .colorist-item:hover::before {
+            left: 0;
+        }
+
+        .colorist-item:hover {
+            color: #FEFFF8;
+            border-color: #FEFFF8;
+            transform: translateY(-10px);
+        }
+
+        .colorist-item h3 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .colorist-item p {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* 다섯 번째 섹션 - 연락처 */
+        .contact-section {
+            min-height: 100vh;
+            background: #1E1E1E;
+            color: #FEFFF8;
+            padding: 100px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 100;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+
+        .contact-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-label {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .contact-value {
+            font-size: 24px;
+            font-weight: 400;
+            border: 1px solid #FEFFF8;
+            padding: 20px 40px;
+            display: inline-block;
+            transition: all 0.6s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-value::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #FEFFF8;
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .contact-value:hover::before {
+            left: 0;
+        }
+
+        .contact-value:hover {
+            color: #1E1E1E;
+            transform: translateY(-5px);
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .intro-section {
+                height: 250vh; /* 모바일에서는 조금 짧게 */
+            }
+            
+            .company-name {
+                font-size: 1.2rem; /* 모바일 시작 크기 */
+                letter-spacing: 0.1em;
+                padding: 0 20px;
+                text-align: center;
+                line-height: 1.2;
+            }
+
+            .works-section,
+            .colorist-section,
+            .contact-section {
+                padding: 80px 30px;
+            }
+
+            .works-grid,
+            .colorist-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .dice-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .dice {
+                width: 80px;
+                height: 80px;
+            }
+
+            .dice-face {
+                width: 80px;
+                height: 80px;
+                font-size: 24px;
+            }
+
+            .dice-face.front { transform: rotateY(0deg) translateZ(40px); }
+            .dice-face.back { transform: rotateY(180deg) translateZ(40px); }
+            .dice-face.right { transform: rotateY(90deg) translateZ(40px); }
+            .dice-face.left { transform: rotateY(-90deg) translateZ(40px); }
+            .dice-face.top { transform: rotateX(90deg) translateZ(40px); }
+            .dice-face.bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+            .dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .logo-text {
+                font-size: 2.5rem;
+            }
+
+            .explosion {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .company-name {
+                font-size: 1rem;
+                letter-spacing: 0.05em;
+            }
+
+            .dice {
+                width: 60px;
+                height: 60px;
+            }
+
+            .dice-face {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+
+            .dice-face.front { transform: rotateY(0deg) translateZ(30px); }
+            .dice-face.back { transform: rotateY(180deg) translateZ(30px); }
+            .dice-face.right { transform: rotateY(90deg) translateZ(30px); }
+            .dice-face.left { transform: rotateY(-90deg) translateZ(30px); }
+            .dice-face.top { transform: rotateX(90deg) translateZ(30px); }
+            .dice-face.bottom { transform: rotateX(-90deg) translateZ(30px); }
+
+            .dot {
+                width: 6px;
+                height: 6px;
+            }
+
+            .logo-text {
+                font-size: 2rem;
+            }
+        }
+
+        /* 스크롤 트리거 애니메이션을 위한 클래스 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s ease-out;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 1s ease-out;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 첫 번째 섹션: 스크롤로 커지는 회사명 -->
+    <section class="intro-section" id="intro">
+        <h1 class="company-name" id="companyName">FEELDIZ DI STUDIO</h1>
+        <div class="scroll-progress" id="scrollProgress">스크롤하여 확대</div>
+    </section>
+
+    <!-- 화면 전환 오버레이 -->
+    <div class="transition-overlay" id="transitionOverlay"></div>
+
+    <!-- 두 번째 섹션: 주사위 애니메이션 -->
+    <section class="logo-section" id="logo">
+        <div class="dice-container">
+            <div class="dice" id="dice">
+                <div class="dice-face front one">
+                    <div class="dot"></div>
+                </div>
+                <div class="dice-face back six">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="dice-face right two">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="dice-face left five">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="dice-face top three">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="dice-face bottom four">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            <div class="explosion" id="explosion"></div>
+            <div class="logo-text" id="logoText">FEELDIZ<br>DI STUDIO</div>
+        </div>
+    </section>
+
+    <!-- 세 번째 섹션: Our Works -->
+    <section class="works-section" id="works">
+        <h2 class="works-title fade-in">Our Works</h2>
+        <div class="works-grid">
+            <div class="work-item fade-in">
+                <div class="work-year">2025</div>
+                <h3 class="work-title">JTBC/Disney 드라마 [착한사나이]</h3>
+                <p class="work-description">이동욱 • 이성경 주연</p>
+            </div>
+            <div class="work-item fade-in">
+                <div class="work-year">2025</div>
+                <h3 class="work-title">상업영화 [베란다]</h3>
+                <p class="work-description">전소민 주연</p>
+            </div>
+            <div class="work-item fade-in">
+                <div class="work-year">2025</div>
+                <h3 class="work-title">독립장편 [그릇된 소녀]</h3>
+                <p class="work-description">육광수 감독</p>
+            </div>
+            <div class="work-item fade-in">
+                <div class="work-year">2025</div>
+                <h3 class="work-title">독립장편 [비밀일수밖에]</h3>
+                <p class="work-description">김대환 감독</p>
+            </div>
+            <div class="work-item fade-in">
+                <div class="work-year">2025</div>
+                <h3 class="work-title">독립장편 [로망스]</h3>
+                <p class="work-description">한만택 감독</p>
+            </div>
+            <div class="work-item fade-in">
+                <div class="work-year">2023</div>
+                <h3 class="work-title">상업영화 [가문의 영광: 리턴즈]</h3>
+                <p class="work-description">코미디 영화</p>
+            </div>
+            <div class="work-item fade-in">
+                <div class="work-year">2023</div>
+                <h3 class="work-title">Netflix [만추] 리마스터 DI</h3>
+                <p class="work-description">리마스터링 프로젝트</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 네 번째 섹션: Colorist -->
+    <section class="colorist-section" id="colorist">
+        <h2 class="colorist-title slide-in-left">Professional</h2>
+        <div class="colorist-content">
+            <div class="colorist-item slide-in-right">
+                <h3>Colorist</h3>
+                <p>영상의 감정과 분위기를 결정하는 컬러 그레이딩을 통해 창작자의 비전을 완성합니다. 국제컬러리스트협회 소속 전문가가 책임집니다.</p>
+            </div>
+            <div class="colorist-item slide-in-right">
+                <h3>HDR Specialist</h3>
+                <p>Dolby Vision HDR 인증 시설에서 정교한 색 보정과 톤 매핑을 통해 완벽한 시각적 경험을 제공합니다.</p>
+            </div>
+            <div class="colorist-item slide-in-right">
+                <h3>Communication</h3>
+                <p>연출, 촬영감독님 그리고 PD님과 직접 소통하며 최고의 능력을 끌어내어 완벽한 결과물을 만들어냅니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 다섯 번째 섹션: Contact -->
+    <section class="contact-section" id="contact">
+        <h2 class="contact-title fade-in">Contact</h2>
+        <div class="contact-info">
+            <div class="contact-item fade-in">
+                <div class="contact-label">Email</div>
+                <a href="mailto:feeldiz.studio.di@gmail.com" class="contact-value">feeldiz.studio.di@gmail.com</a>
+            </div>
+            <div class="contact-item fade-in">
+                <div class="contact-label">Phone</div>
+                <a href="tel:010-7334-3480" class="contact-value">010-7334-3480</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 스크롤 관련 변수
+        let isDiceAnimated = false;
+        let isExplosionTriggered = false;
+        let isTransitioning = false;
+        let currentSection = 0;
+
+        // 첫 번째 섹션 스크롤 효과
+        const companyName = document.getElementById('companyName');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const transitionOverlay = document.getElementById('transitionOverlay');
+        const introSection = document.getElementById('intro');
+        const logoSection = document.getElementById('logo');
+
+        // 글씨 크기 변화 함수
+        function updateTextSize() {
+            const scrollY = window.scrollY;
+            const introHeight = introSection.offsetHeight;
+            
+            // intro 섹션을 벗어났으면 글씨 크기 업데이트 안함
+            if (scrollY >= introHeight) {
+                return;
+            }
+            
+            const progress = Math.min(scrollY / (introHeight * 0.6), 1);
+            
+            // 반응형 글씨 크기 설정
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 480;
+            
+            let minSize, maxSize;
+            
+            if (isSmallMobile) {
+                minSize = 1;
+                maxSize = 6;
+            } else if (isMobile) {
+                minSize = 1.2;
+                maxSize = 8;
+            } else {
+                minSize = 2;
+                maxSize = 15;
+            }
+            
+            const currentSize = minSize + (maxSize - minSize) * progress;
+            companyName.style.fontSize = `${currentSize}rem`;
+            
+            // 진행률 표시 업데이트 (currentSection === 0일 때만)
+            if (currentSection === 0) {
+                const percentage = Math.floor(progress * 100);
+                if (percentage < 100) {
+                    scrollProgress.textContent = `스크롤하여 확대 ${percentage}%`;
+                    scrollProgress.style.opacity = '0.5';
+                    
+                    // 전환 상태 리셋 (다시 위로 스크롤했을 때)
+                    if (isTransitioning && percentage < 95) {
+                        isTransitioning = false;
+                    }
+                } else {
+                    scrollProgress.textContent = '전환 중...';
+                    scrollProgress.style.opacity = '0.8';
+                }
+                
+                // 100% 도달 시 다음 섹션으로 자동 전환
+                if (progress >= 1 && !isTransitioning && currentSection === 0) {
+                    isTransitioning = true;
+                    transitionToNextSection();
+                }
+            }
+        }
+
+        // 다음 섹션으로 전환
+        function transitionToNextSection() {
+            // 오버레이 효과
+            transitionOverlay.classList.add('active');
+            
+            // 진행률 표시 숨기기
+            scrollProgress.style.display = 'none';
+            
+            setTimeout(() => {
+                // 부드럽게 다음 섹션으로 스크롤
+                const logoSectionTop = logoSection.offsetTop;
+                window.scrollTo({
+                    top: logoSectionTop,
+                    behavior: 'smooth'
+                });
+                
+                // 회사명 고정 해제 (섹션 전환 완료 후)
+                setTimeout(() => {
+                    companyName.style.position = 'relative';
+                    companyName.style.transform = 'none';
+                    companyName.style.top = 'auto';
+                    companyName.style.left = 'auto';
+                    companyName.style.zIndex = 'auto';
+                }, 600);
+                
+                setTimeout(() => {
+                    transitionOverlay.classList.remove('active');
+                    currentSection = 1;
+                }, 800);
+                
+            }, 400);
+        }
+
+        // 메인 스크롤 이벤트
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const introHeight = introSection.offsetHeight;
+            
+            // 맨 위 근처로 스크롤했을 때 무조건 초기 상태로 리셋
+            if (scrollY <= 100) {
+                if (currentSection !== 0 || isTransitioning) {
+                    resetToInitialState();
+                    currentSection = 0;
+                }
+                // 첫 번째 섹션에서 글씨 크기 업데이트
+                updateTextSize();
+                return; // 다른 로직 실행 안함
+            }
+            
+            // intro 섹션 범위 내에 있을 때
+            if (scrollY < introHeight) {
+                if (currentSection !== 0) {
+                    resetToInitialState();
+                    currentSection = 0;
+                }
+                updateTextSize();
+                return; // 다른 로직 실행 안함
+            }
+            
+            // intro 섹션을 벗어났을 때만 다른 섹션 로직 실행
+            if (currentSection === 0) {
+                // 아직 첫 번째 섹션이라면 글씨 크기만 업데이트
+                updateTextSize();
+            } else {
+                // 나머지 섹션들의 애니메이션
+                const logoSectionTop = logoSection.offsetTop;
+                if (scrollY > logoSectionTop - windowHeight * 0.5 && !isDiceAnimated) {
+                    // 주사위 애니메이션 트리거
+                    const dice = document.getElementById('dice');
+                    if (dice) {
+                        dice.classList.add('active');
+                        isDiceAnimated = true;
+                        
+                        // 2.8초 후 폭발 효과 (4번째 튕김 후)
+                        setTimeout(() => {
+                            if (!isExplosionTriggered) {
+                                triggerExplosion();
+                                isExplosionTriggered = true;
+                            }
+                        }, 2800);
+                    }
+                }
+                animateOnScroll();
+            }
+        });
+
+        // 초기 상태로 리셋하는 함수
+        function resetToInitialState() {
+            // 상태 리셋
+            currentSection = 0;
+            isTransitioning = false;
+            
+            // 회사명 스타일 완전히 초기화
+            companyName.style.position = 'fixed';
+            companyName.style.top = '50%';
+            companyName.style.left = '50%';
+            companyName.style.transform = 'translate(-50%, -50%)';
+            companyName.style.zIndex = '100';
+            
+            // 초기 폰트 크기로 강제 설정
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 480;
+            
+            let initialSize;
+            if (isSmallMobile) {
+                initialSize = 1;
+            } else if (isMobile) {
+                initialSize = 1.2;
+            } else {
+                initialSize = 2;
+            }
+            
+            companyName.style.fontSize = `${initialSize}rem`;
+            
+            // 진행률 표시 초기화
+            scrollProgress.style.display = 'block';
+            scrollProgress.textContent = '스크롤하여 확대 0%';
+            scrollProgress.style.opacity = '0.5';
+            
+            // 오버레이 제거
+            transitionOverlay.classList.remove('active');
+            
+            // 주사위 애니메이션 상태 리셋
+            if (isDiceAnimated) {
+                const dice = document.getElementById('dice');
+                const explosion = document.getElementById('explosion');
+                const logoText = document.getElementById('logoText');
+                
+                if (dice) dice.classList.remove('active');
+                if (explosion) explosion.classList.remove('active');
+                if (logoText) logoText.classList.remove('active');
+                
+                isDiceAnimated = false;
+                isExplosionTriggered = false;
+            }
+        }
+
+        // 폭발 효과 트리거
+        function triggerExplosion() {
+            const explosion = document.getElementById('explosion');
+            const logoText = document.getElementById('logoText');
+            const diceContainer = document.querySelector('.dice-container');
+            
+            // 폭발 이펙트 시작
+            if (explosion) {
+                explosion.classList.add('active');
+            }
+            
+            // 파티클 효과 생성
+            createParticles(diceContainer);
+            
+            // 1초 후 텍스트 나타남
+            setTimeout(() => {
+                if (logoText) {
+                    logoText.classList.add('active');
+                }
+            }, 1000);
+        }
+
+        // 파티클 생성 함수
+        function createParticles(container) {
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 랜덤 위치 설정
+                const centerX = 200;
+                const centerY = 200;
+                const angle = (i / particleCount) * Math.PI * 2;
+                const distance = 100 + Math.random() * 150;
+                
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                
+                // CSS 변수로 이동 거리 설정
+                particle.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+                particle.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+                
+                container.appendChild(particle);
+                
+                // 애니메이션 시작
+                setTimeout(() => {
+                    particle.classList.add('active');
+                }, 100);
+                
+                // 파티클 제거
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 1600);
+            }
+        }
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight * 0.8) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // 3D 로고에 마우스 인터랙션 추가
+        const logo3d = document.getElementById('logo3d');
+        const logoContainer = document.querySelector('.logo-container');
+
+        if (logoContainer) {
+            logoContainer.addEventListener('mousemove', (e) => {
+                if (!isLogoAnimated) return;
+                
+                const rect = logoContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / centerY * -15;
+                const rotateY = (x - centerX) / centerX * 15;
+                
+                logo3d.style.transform = `translate(-50%, -50%) scale(1.2) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            logoContainer.addEventListener('mouseleave', () => {
+                if (!isLogoAnimated) return;
+                logo3d.style.transform = 'translate(-50%, -50%) scale(1.2) rotateX(0deg) rotateY(0deg)';
+            });
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            // 페이지 로드 시 즉시 맨 위로 스크롤
+            window.scrollTo(0, 0);
+            
+            // 완전한 초기 상태 설정
+            setTimeout(() => {
+                resetToInitialState();
+                currentSection = 0;
+                updateTextSize(); // 초기 글씨 크기 설정
+            }, 100);
+            
+            animateOnScroll();
+        });
+
+        // 키보드 인터랙션
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' && currentSection === 0) {
+                window.scrollBy(0, 50);
+            } else if (e.key === 'ArrowUp' || e.key === 'Home') {
+                // 맨 위로 이동하고 초기 상태로 강제 리셋
+                window.scrollTo(0, 0);
+                setTimeout(() => {
+                    resetToInitialState();
+                    currentSection = 0;
+                }, 50);
+            }
+        });
+
+        // 브라우저의 뒤로가기/앞으로가기 대응
+        window.addEventListener('popstate', () => {
+            window.scrollTo(0, 0);
+            setTimeout(() => {
+                resetToInitialState();
+                currentSection = 0;
+            }, 50);
+        });
+
+        // 페이지 가시성 변경 시 (탭 전환 등)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && window.scrollY < 100) {
+                resetToInitialState();
+                currentSection = 0;
+            }
+        });
+
+        // 휠 이벤트로 더 부드러운 스크롤
+        let wheelTimeout;
+        window.addEventListener('wheel', (e) => {
+            // 위로 스크롤하면서 맨 위 근처에 도달했을 때
+            if (e.deltaY < 0 && window.scrollY < 150) {
+                clearTimeout(wheelTimeout);
+                wheelTimeout = setTimeout(() => {
+                    if (window.scrollY < 100) {
+                        resetToInitialState();
+                        currentSection = 0;
+                        updateTextSize();
+                    }
+                }, 50);
+            }
+            
+            if (currentSection === 0) {
+                clearTimeout(wheelTimeout);
+                wheelTimeout = setTimeout(() => {
+                    updateTextSize();
+                }, 10);
+            }
+        });
+
+        // 터치 디바이스 지원 (모바일)
+        let touchStartY = 0;
+        let touchMoveTimeout;
+
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchStartY - touchY;
+            
+            // 위로 스와이프하면서 맨 위 근처에 있을 때
+            if (deltaY < 0 && window.scrollY < 150) {
+                clearTimeout(touchMoveTimeout);
+                touchMoveTimeout = setTimeout(() => {
+                    if (window.scrollY < 100) {
+                        resetToInitialState();
+                        currentSection = 0;
+                        updateTextSize();
+                    }
+                }, 50);
+            }
+            
+            if (currentSection === 0) {
+                updateTextSize();
+            }
+        });
+    </script>
+</body>
+</html>
