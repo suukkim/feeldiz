@@ -212,6 +212,10 @@
             position: relative;
         }
         
+        .work-link.multi-link {
+            cursor: pointer;
+        }
+        
         .work-link::after {
             content: '🔗 클릭 시 이동';
             position: absolute;
@@ -238,7 +242,60 @@
             transform: translate(-50%, -50%) scale(1.05);
         }
         
+        .work-link.multi-link::after {
+            display: none;
+        }
+        
+        .work-link.multi-link .hover-links {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .work-link.multi-link:hover .hover-links {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .hover-link-btn {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.95), rgba(255, 139, 83, 0.95));
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .hover-link-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        .hover-link-btn.disney {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.95), rgba(40, 167, 69, 0.95));
+        }
+        
         .work-link:hover .work-item {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 107, 107, 0.5);
+            filter: brightness(0.7);
+        }
+        
+        .work-link.multi-link:hover .work-item {
             transform: translateY(-12px);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
             border-color: rgba(255, 107, 107, 0.5);
@@ -342,6 +399,228 @@
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .shorts-section {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .shorts-header {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+        
+        .shorts-header:hover {
+            transform: translateY(-2px);
+        }
+        
+        .shorts-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .shorts-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #c77dff, #ffd60a, #003566);
+            background-size: 300% 100%;
+            animation: gradient-slide 4s ease infinite;
+        }
+        
+        .shorts-icon {
+            font-size: 1.5rem;
+        }
+        
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: #4ecdc4;
+        }
+        
+        .shorts-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .shorts-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            opacity: 0;
+        }
+        
+        .shorts-content.active {
+            max-height: 2000px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in-out, opacity 0.3s ease 0.2s;
+        }
+        
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+        
+        .shorts-grid .work-item {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .shorts-grid .work-item::after {
+            content: '🏆 영화제 수상 목록';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 165, 0, 0.95));
+            color: #333;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+        
+        .shorts-grid .work-item:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+            pointer-events: auto;
+        }
+        
+        .shorts-grid .work-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 215, 0, 0.3);
+            filter: brightness(0.8);
+        }
+        
+        .awards-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .awards-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .awards-content {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+        
+        .awards-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .awards-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        .awards-subtitle {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+        }
+        
+        .awards-list {
+            margin-bottom: 20px;
+        }
+        
+        .award-item {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .award-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+        
+        .award-festival {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+        
+        .award-detail {
+            font-size: 0.95rem;
+            color: #d0d0d0;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #b0b0b0;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #FFD700;
+        }
+        
+        .no-awards {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 20px;
         }
         
         .colorist-section {
@@ -633,231 +912,6 @@
             font-weight: 400;
         }
         
-        /* 모바일 최적화 - 간결하고 컴팩트한 디자인 */
-        @media (max-width: 768px) {
-            body {
-                line-height: 1.4;
-            }
-            
-            .container {
-                padding: 0 15px;
-            }
-            
-            /* Credentials 섹션 간소화 */
-            .credentials {
-                gap: 8px;
-                margin-bottom: 30px;
-                margin-top: 20px;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-            }
-            
-            .credentials::-webkit-scrollbar {
-                display: none;
-            }
-            
-            .credential-badge {
-                padding: 10px 12px;
-                min-width: 65px;
-                max-width: 75px;
-                flex: 0 0 auto;
-                border-radius: 12px;
-            }
-            
-            .credential-text {
-                font-size: 12px;
-                font-weight: 600;
-            }
-            
-            /* 메인 타이틀 */
-            .main-title {
-                margin-bottom: 15px;
-                line-height: 1.1;
-            }
-            
-            /* 웹사이트 링크 */
-            .website-link-container {
-                margin-bottom: 25px;
-            }
-            
-            .website-link {
-                font-size: 0.85rem;
-            }
-            
-            /* Works 섹션 간소화 */
-            .works-section {
-                margin-top: 40px;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-                margin-bottom: 25px;
-            }
-            
-            .works-grid {
-                gap: 15px;
-                margin-bottom: 30px;
-            }
-            
-            .work-item {
-                padding: 18px;
-                border-radius: 15px;
-            }
-            
-            .work-year {
-                font-size: 12px;
-                margin-bottom: 6px;
-            }
-            
-            .work-title {
-                font-size: 1.1rem;
-                margin-bottom: 6px;
-                line-height: 1.3;
-            }
-            
-            .work-details {
-                font-size: 0.95rem;
-                line-height: 1.3;
-            }
-            
-            .featured-tag {
-                top: 12px;
-                right: 12px;
-                padding: 6px 12px;
-                font-size: 10px;
-                border-radius: 15px;
-            }
-            
-            /* Continuing text 간소화 */
-            .continuing-text {
-                margin-top: 25px;
-                margin-bottom: 40px;
-                padding: 18px;
-                font-size: 1rem;
-                line-height: 1.4;
-            }
-            
-            /* Colorist 섹션 간소화 */
-            .colorist-section, .facility-section, .contact-section {
-                margin-top: 35px;
-                margin-bottom: 40px;
-            }
-            
-            .colorist-card, .facility-card {
-                padding: 20px;
-                margin: 0 5px;
-                border-radius: 18px;
-            }
-            
-            .colorist-text, .facility-text {
-                font-size: 0.95rem;
-                margin-bottom: 15px;
-                line-height: 1.5;
-            }
-            
-            .colorist-intro, .facility-intro {
-                line-height: 1.5;
-            }
-            
-            /* Facility specs 간소화 */
-            .facility-specs {
-                font-size: 0.95rem !important;
-                padding: 12px;
-                margin-top: 20px !important;
-                line-height: 1.3;
-            }
-            
-            /* Contact 섹션 간소화 */
-            .contact-buttons {
-                flex-direction: column;
-                gap: 15px;
-                padding: 0 5px;
-            }
-            
-            .contact-btn {
-                min-width: auto;
-                padding: 20px 18px;
-                border-radius: 15px;
-                gap: 15px;
-            }
-            
-            .btn-icon {
-                font-size: 1.8rem;
-            }
-            
-            .btn-title {
-                font-size: 1rem;
-                margin-bottom: 3px;
-            }
-            
-            .btn-subtitle {
-                font-size: 0.85rem;
-                line-height: 1.2;
-            }
-            
-            /* 호버 효과 간소화 (모바일에서는 불필요) */
-            .work-link::after {
-                display: none;
-            }
-            
-            .work-item:hover,
-            .colorist-card:hover,
-            .facility-card:hover,
-            .contact-btn:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            
-            .credential-badge:hover {
-                transform: none;
-                box-shadow: none;
-            }
-        }
-        
-        /* 더 작은 모바일 화면 */
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 12px;
-            }
-            
-            .credential-badge {
-                padding: 8px 10px;
-                min-width: 60px;
-                max-width: 68px;
-            }
-            
-            .credential-text {
-                font-size: 11px;
-            }
-            
-            .work-item {
-                padding: 15px;
-            }
-            
-            .work-title {
-                font-size: 1rem;
-            }
-            
-            .work-details {
-                font-size: 0.9rem;
-            }
-            
-            .colorist-card, .facility-card {
-                padding: 18px;
-            }
-            
-            .colorist-text, .facility-text {
-                font-size: 0.9rem;
-                margin-bottom: 12px;
-            }
-            
-            .contact-btn {
-                padding: 18px 15px;
-            }
-        }
-        
         .floating-elements {
             position: fixed;
             top: 0;
@@ -959,13 +1013,6 @@
                 opacity: 0.6;
             }
         }
-        
-        /* 모바일에서 floating elements 숨기기 (성능 최적화) */
-        @media (max-width: 768px) {
-            .floating-elements {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1007,14 +1054,22 @@
                     <h2 class="section-title">Our Work</h2>
                     
                     <div class="works-grid">
-                        <a href="https://tv.jtbc.co.kr/theniceguy" target="_blank" class="work-link">
+                        <div class="work-link multi-link">
                             <div class="work-item featured">
                                 <div class="featured-tag">Featured</div>
                                 <div class="work-year">2025</div>
                                 <div class="work-title">JTBC/Disney 드라마 [착한사나이]</div>
                                 <div class="work-details">이동욱 • 이성경 주연</div>
                             </div>
-                        </a>
+                            <div class="hover-links">
+                                <a href="https://tv.jtbc.co.kr/theniceguy" target="_blank" class="hover-link-btn">
+                                    📺 JTBC
+                                </a>
+                                <a href="https://youtu.be/PfEMKreJVDo" target="_blank" class="hover-link-btn disney">
+                                    📹 Video
+                                </a>
+                            </div>
+                        </div>
                         
                         <div class="work-item featured">
                             <div class="featured-tag">Featured</div>
@@ -1051,6 +1106,92 @@
                             <div class="work-year">2023</div>
                             <div class="work-title">Netflix [만추] 리마스터 DI</div>
                             <div class="work-details"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="shorts-section">
+                        <div class="shorts-header" onclick="toggleShorts()">
+                            <h3 class="shorts-title">
+                                <span class="shorts-icon">🎬</span>
+                                단편 작품 및 영화제
+                                <span class="toggle-icon">▼</span>
+                            </h3>
+                        </div>
+                        
+                        <div class="shorts-content" id="shortsContent">
+                            <div class="shorts-grid">
+                                <div class="work-item" data-film="workshop3" onclick="showAwards('workshop3')">
+                                    <div class="work-year">2025</div>
+                                    <div class="work-title">독립단편 [워크숍 3]</div>
+                                    <div class="work-details">한국예술종합학교 영상원</div>
+                                </div>
+                                
+                                <div class="work-item" data-film="caution" onclick="showAwards('caution')">
+                                    <div class="work-year">2024</div>
+                                    <div class="work-title">단편 [취급주의]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="mung" onclick="showAwards('mung')">
+                                    <div class="work-year">2024</div>
+                                    <div class="work-title">단편 [멍]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="stain" onclick="showAwards('stain')">
+                                    <div class="work-year">2023</div>
+                                    <div class="work-title">단편 [얼룩]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="uriduri" onclick="showAwards('uriduri')">
+                                    <div class="work-year">2022</div>
+                                    <div class="work-title">단편 [우리두리]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="cleanzone" onclick="showAwards('cleanzone')">
+                                    <div class="work-year">2022</div>
+                                    <div class="work-title">단편 [청정구역]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="holiday" onclick="showAwards('holiday')">
+                                    <div class="work-year">2021</div>
+                                    <div class="work-title">단편 [휴일]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="openyoursense" onclick="showAwards('openyoursense')">
+                                    <div class="work-year">2021</div>
+                                    <div class="work-title">단편 [오픈유어센스]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="bichang" onclick="showAwards('bichang')">
+                                    <div class="work-year">2021</div>
+                                    <div class="work-title">단편 [비창]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="portrait" onclick="showAwards('portrait')">
+                                    <div class="work-year">2021</div>
+                                    <div class="work-title">단편 [초상]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="bravolife" onclick="showAwards('bravolife')">
+                                    <div class="work-year">2021</div>
+                                    <div class="work-title">단편 [브라보 마이라이프]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                                
+                                <div class="work-item" data-film="harmful" onclick="showAwards('harmful')">
+                                    <div class="work-year">2020</div>
+                                    <div class="work-title">단편 [유해한 녀석들]</div>
+                                    <div class="work-details"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -1139,5 +1280,132 @@
             </div>
         </div>
     </div>
+    
+    <!-- Awards Modal -->
+    <div id="awardsModal" class="awards-modal">
+        <div class="awards-content">
+            <button class="close-btn" onclick="closeAwards()">&times;</button>
+            <div class="awards-header">
+                <div class="awards-title" id="modalTitle"></div>
+                <div class="awards-subtitle">영화제 수상 목록</div>
+            </div>
+            <div class="awards-list" id="awardsList">
+                <!-- 수상 목록이 여기에 동적으로 삽입됩니다 -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 작품별 수상 데이터
+        const awardsData = {
+            workshop3: [],
+            caution: [
+                { festival: '제천국제음악영화제', award: '상영' }
+            ],
+            mung: [
+                { festival: '브라질 한국 영화제', award: '경쟁부문' }
+            ],
+            stain: [
+                { festival: '25회 전주국제영화제', award: '코리안시네마' },
+                { festival: '18회 안양여성인원 영화제', award: '초청작' },
+                { festival: '25회 제주여성영화제', award: '본선' },
+                { festival: '목포국도 1호성 영화제', award: '초청' },
+                { festival: '브라질 한국 영화제', award: '경쟁부문' },
+                { festival: '제천국제음악영화제', award: '메이드인제천' },
+                { festival: '전북여성영화제', award: '초청' },
+                { festival: '꽃심어린이청소년영화제', award: '대상' },
+                { festival: '무비블록 단편영화제', award: '본선' }
+            ],
+            uriduri: [],
+            cleanzone: [
+                { festival: '4회 울산단편영화제', award: '감독상' },
+                { festival: '2회 합천수려한영화제', award: '초청' }
+            ],
+            holiday: [],
+            openyoursense: [],
+            bichang: [
+                { festival: '17회 제천국제음악영화제', award: '경쟁부문' },
+                { festival: '22회 대한민국 청소년 영화제', award: '본선' },
+                { festival: '17회 대학영화제', award: '본선' },
+                { festival: '5회 미사리음악영화제', award: '본선' }
+            ],
+            portrait: [
+                { festival: '1회 코닥어패럴영화제', award: '초청작' },
+                { festival: '1회 동대문단편영화제', award: '본선' }
+            ],
+            bravolife: [
+                { festival: '제천국제영화제', award: '메이드인 제천' },
+                { festival: '충무로단편독립영화제', award: '본선' },
+                { festival: '6회 우리나라 가장동쪽영화제', award: '공식초청' },
+                { festival: '18회 정읍전국실버 영화제', award: '본선' },
+                { festival: '5회 제주무비콘서트 페스티벌', award: '국내단편' },
+                { festival: '서울여성독립영화제', award: '경쟁부문' }
+            ],
+            harmful: [
+                { festival: '제 3회 울산단편영화제', award: '본선' }
+            ]
+        };
+
+        function toggleShorts() {
+            const content = document.getElementById('shortsContent');
+            const header = document.querySelector('.shorts-header');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                header.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+        
+        function showAwards(filmId) {
+            const modal = document.getElementById('awardsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const awardsList = document.getElementById('awardsList');
+            
+            // 작품 제목 설정
+            const filmElement = document.querySelector(`[data-film="${filmId}"]`);
+            const filmTitle = filmElement.querySelector('.work-title').textContent;
+            modalTitle.textContent = filmTitle;
+            
+            // 수상 목록 생성
+            const awards = awardsData[filmId] || [];
+            
+            if (awards.length === 0) {
+                awardsList.innerHTML = '<div class="no-awards">아직 수상 내역이 없습니다.</div>';
+            } else {
+                awardsList.innerHTML = awards.map(award => `
+                    <div class="award-item">
+                        <div class="award-festival">${award.festival}</div>
+                        <div class="award-detail">${award.award}</div>
+                    </div>
+                `).join('');
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 스크롤 방지
+        }
+        
+        function closeAwards() {
+            const modal = document.getElementById('awardsModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // 스크롤 복원
+        }
+        
+        // 모달 외부 클릭 시 닫기
+        document.getElementById('awardsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAwards();
+            }
+        });
+        
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAwards();
+            }
+        });
+    </script>
 </body>
 </html>
