@@ -548,6 +548,45 @@
             filter: brightness(0.8);
         }
         
+        .work-item.upcoming {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .work-item.upcoming::after {
+            content: '🎬 2025 개봉예정';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.95), rgba(70, 130, 180, 0.95));
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+        
+        .work-item.upcoming:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        
+        .work-item.upcoming:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border-color: rgba(138, 43, 226, 0.5);
+            filter: brightness(0.8);
+        }
+        
         .shorts-grid .work-item:hover::after {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1.05);
@@ -1318,7 +1357,7 @@
                             </div>
                         </div>
                         
-                        <div class="work-item featured">
+                        <div class="work-item featured upcoming">
                             <div class="featured-tag">Featured</div>
                             <div class="work-year">2025</div>
                             <div class="work-title">상업영화 [베란다]</div>
@@ -1331,7 +1370,7 @@
                             <div class="work-details">육광수 감독</div>
                         </div>
                         
-                        <div class="work-item">
+                        <div class="work-item upcoming">
                             <div class="work-year">2025</div>
                             <div class="work-title">독립장편 [비밀일수밖에]</div>
                             <div class="work-details">김대환 감독</div>
@@ -1341,6 +1380,12 @@
                             <div class="work-year">2025</div>
                             <div class="work-title">독립장편 [로망스]</div>
                             <div class="work-details">한만택 감독</div>
+                        </div>
+                        
+                        <div class="work-item upcoming">
+                            <div class="work-year">2025</div>
+                            <div class="work-title">독립장편 [검은뱀]</div>
+                            <div class="work-details"></div>
                         </div>
                         
                         <div class="work-item">
