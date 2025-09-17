@@ -164,74 +164,6 @@
             font-weight: bold;
         }
         
-        .nav-arrow {
-            position: absolute;
-            top: 0;
-            width: 60px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-        }
-        
-        .nav-arrow:hover {
-            background: rgba(0, 0, 0, 0.3);
-            opacity: 1;
-        }
-        
-        .comparison-wrapper:hover .nav-arrow {
-            opacity: 0.7;
-        }
-        
-        .nav-arrow.left {
-            left: 0;
-        }
-        
-        .nav-arrow.right {
-            right: 0;
-        }
-        
-        .nav-arrow::before {
-            content: '';
-            width: 0;
-            height: 0;
-            border-style: solid;
-        }
-        
-        .nav-arrow.left::before {
-            border-left: 0;
-            border-right: 15px solid white;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-        }
-        
-        .nav-arrow.right::before {
-            border-left: 15px solid white;
-            border-right: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-        }
-        
-        .image-counter {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 4;
-            backdrop-filter: blur(10px);
-        }
-        
         .image-labels {
             position: absolute;
             bottom: 20px;
@@ -264,56 +196,20 @@
         .photo-examples {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 30px;
-            margin-top: 30px;
+            gap: 40px;
+            margin-top: 40px;
         }
         
         .example-title {
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #ffffff;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-        
-        .project-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .project-btn {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 12px 20px;
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        
-        .project-btn:hover {
-            transform: translateY(-2px);
-            border-color: rgba(78, 205, 196, 0.5);
-            color: #ffffff;
-            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.2);
-        }
-        
-        .project-btn.active {
-            background: linear-gradient(135deg, rgba(78, 205, 196, 0.3), rgba(69, 183, 209, 0.3));
-            border-color: rgba(78, 205, 196, 0.6);
-            color: #ffffff;
-            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.3);
         }
         
         .hero-section {
@@ -1592,16 +1488,6 @@
     </style>
 </head>
 <body>
-    <div class="top-nav">
-        <div class="nav-container">
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#photo" class="nav-link">Photo</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-    
     <div class="floating-elements">
         <div class="floating-circle"></div>
         <div class="floating-circle"></div>
@@ -1610,7 +1496,7 @@
         <div class="floating-circle"></div>
     </div>
     
-    <div class="hero-section" id="home">
+    <div class="hero-section">
         <div class="container">
             <div class="hero-content">
                 <div class="credentials">
@@ -1824,44 +1710,7 @@
                     </div>
                 </div>
                 
-                <div class="photo-section" id="photo">
-                    <h2 class="section-title">Photo</h2>
-                    
-                    <div class="photo-content">
-                        <div class="comparison-container">
-                            <div class="photo-examples">
-                                <div>
-                                    <div class="example-title">Color Grading Before | After</div>
-                                    
-                                    <div class="project-selector">
-                                        <button class="project-btn active" data-project="theniceguy">착한사나이</button>
-                                        <button class="project-btn" data-project="veranda">베란다</button>
-                                        <button class="project-btn" data-project="blacksnake">검은뱀</button>
-                                        <button class="project-btn" data-project="wronggirl">그릇된 소녀</button>
-                                        <button class="project-btn" data-project="secret">비밀일수밖에</button>
-                                        <button class="project-btn" data-project="romance">로망스</button>
-                                    </div>
-                                    
-                                    <div class="comparison-wrapper" id="comparison1">
-                                        <div class="nav-arrow left" onclick="navigateImage(-1)"></div>
-                                        <div class="nav-arrow right" onclick="navigateImage(1)"></div>
-                                        <div class="image-counter" id="imageCounter">1 / 1</div>
-                                        
-                                        <img id="beforeImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23666666'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E착한사나이 - BEFORE (1/20)%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E" alt="Before" class="comparison-image image-before">
-                                        <img id="afterImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%234ecdc4'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E착한사나이 - AFTER (1/20)%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E" alt="After" class="comparison-image image-after">
-                                        <div class="slider-handle"></div>
-                                        <div class="image-labels">
-                                            <div class="label before">BEFORE</div>
-                                            <div class="label after">AFTER</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="facility-section" id="facility">
+                <div class="facility-section">
                     <h2 class="section-title">Facility</h2>
                     
                     <div class="facility-content">
@@ -1883,7 +1732,7 @@
                     </div>
                 </div>
                 
-                <div class="contact-section" id="contact">
+                <div class="contact-section">
                     <h2 class="section-title">Contact</h2>
                     
                     <div class="contact-content">
@@ -1925,34 +1774,6 @@
     </div>
     
     <script>
-        // 프로젝트별 이미지 데이터 (실제 이미지 URL로 교체하세요)
-        const projectImages = {
-            theniceguy: {
-                before: "https://drive.google.com/file/d/1fYjK9cjPoAt2tAxJ3pgFVCIvGeHwBAvr/view?usp=sharing",
-                after: "https://drive.google.com/file/d/1g__BxYyEimvtNK1UgSZK1oQRJuh8BEEu/view?usp=drive_link"
-            },
-            veranda: {
-                before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23555555'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E베란다 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
-                after: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23ff6b6b'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E베란다 - AFTER%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E"
-            },
-            blacksnake: {
-                before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23333333'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E검은뱀 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
-                after: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%232c2c2c'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E검은뱀 - AFTER%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E"
-            },
-            wronggirl: {
-                before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23444444'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E그릇된 소녀 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
-                after: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%2345b7d1'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E그릇된 소녀 - AFTER%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E"
-            },
-            secret: {
-                before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23777777'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E비밀일수밖에 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
-                after: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23c77dff'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E비밀일수밖에 - AFTER%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E"
-            },
-            romance: {
-                before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23888888'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E로망스 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
-                after: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23ffd60a'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E로망스 - AFTER%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E"
-            }
-        };
-
         // 작품별 수상 데이터
         const awardsData = {
             wronggirl: [
@@ -2008,215 +1829,6 @@
                 { festival: '제 3회 울산단편영화제', award: '본선' }
             ]
         };
-
-        // 프로젝트 선택 기능
-        function switchProject(projectId) {
-            const beforeImg = document.getElementById('beforeImage');
-            const afterImg = document.getElementById('afterImage');
-            
-            if (projectImages[projectId]) {
-                beforeImg.src = projectImages[projectId].before;
-                afterImg.src = projectImages[projectId].after;
-                
-                // 슬라이더 위치 초기화
-                const wrapper = document.getElementById('comparison1');
-                const handle = wrapper.querySelector('.slider-handle');
-                const afterImage = wrapper.querySelector('.image-after');
-                
-                handle.style.left = '50%';
-                afterImage.style.clipPath = 'polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)';
-            }
-        }
-
-        // 부드러운 스크롤 네비게이션
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                
-                if (targetSection) {
-                    const offsetTop = targetSection.offsetTop - 80; // 네비게이션 바 높이 고려
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // 프로젝트 버튼 이벤트
-        document.addEventListener('DOMContentLoaded', function() {
-            const projectButtons = document.querySelectorAll('.project-btn');
-            
-            projectButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 모든 버튼 비활성화
-                    projectButtons.forEach(btn => btn.classList.remove('active'));
-                    // 클릭된 버튼 활성화
-                    this.classList.add('active');
-                    
-                    // 프로젝트 변경
-                    const projectId = this.getAttribute('data-project');
-                    switchProject(projectId);
-                });
-            });
-            
-            // 키보드 네비게이션 추가
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    navigateImage(-1);
-                } else if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    navigateImage(1);
-                }
-            });
-            
-            // 초기 이미지 설정 및 슬라이더 설정
-            updateCurrentImage();
-            initializeComparison('comparison1');
-        });
-
-        // Before/After 이미지 슬라이더
-        function initializeComparison(wrapperId) {
-            const wrapper = document.getElementById(wrapperId);
-            if (!wrapper) return;
-            
-            const handle = wrapper.querySelector('.slider-handle');
-            const afterImage = wrapper.querySelector('.image-after');
-            let isDragging = false;
-            let isSliderDrag = false;
-            
-            // 스와이프 관련 변수
-            let startX = 0;
-            let startY = 0;
-            let startTime = 0;
-
-            function updateSlider(percentage) {
-                const clampedPercentage = Math.max(0, Math.min(100, percentage));
-                handle.style.left = clampedPercentage + '%';
-                afterImage.style.clipPath = `polygon(${clampedPercentage}% 0%, 100% 0%, 100% 100%, ${clampedPercentage}% 100%)`;
-            }
-
-            function getPercentage(e) {
-                const rect = wrapper.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                return (x / rect.width) * 100;
-            }
-            
-            function isNearHandle(e) {
-                const rect = wrapper.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const handlePosition = (parseFloat(handle.style.left) || 50) / 100 * rect.width;
-                return Math.abs(x - handlePosition) < 30; // 핸들 주변 30px 범위
-            }
-
-            // 마우스 이벤트
-            wrapper.addEventListener('mousedown', (e) => {
-                if (isNearHandle(e)) {
-                    isDragging = true;
-                    isSliderDrag = true;
-                    updateSlider(getPercentage(e));
-                }
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (isDragging && isSliderDrag) {
-                    updateSlider(getPercentage(e));
-                }
-            });
-
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-                isSliderDrag = false;
-            });
-
-            // 터치 이벤트 (스와이프 + 슬라이더)
-            wrapper.addEventListener('touchstart', (e) => {
-                const touch = e.touches[0];
-                startX = touch.clientX;
-                startY = touch.clientY;
-                startTime = Date.now();
-                
-                if (isNearHandle(e)) {
-                    isDragging = true;
-                    isSliderDrag = true;
-                    updateSlider(getPercentage(e));
-                }
-            });
-
-            wrapper.addEventListener('touchmove', (e) => {
-                if (isDragging && isSliderDrag) {
-                    e.preventDefault();
-                    updateSlider(getPercentage(e));
-                }
-            });
-
-            wrapper.addEventListener('touchend', (e) => {
-                if (!isSliderDrag) {
-                    const touch = e.changedTouches[0];
-                    const endX = touch.clientX;
-                    const endY = touch.clientY;
-                    const endTime = Date.now();
-                    
-                    const deltaX = endX - startX;
-                    const deltaY = endY - startY;
-                    const deltaTime = endTime - startTime;
-                    
-                    // 스와이프 조건: 가로 이동 50px 이상, 세로 이동 100px 미만, 500ms 이내
-                    if (Math.abs(deltaX) > 50 && Math.abs(deltaY) < 100 && deltaTime < 500) {
-                        if (deltaX > 0) {
-                            // 오른쪽 스와이프 - 이전 이미지
-                            navigateImage(-1);
-                        } else {
-                            // 왼쪽 스와이프 - 다음 이미지
-                            navigateImage(1);
-                        }
-                    }
-                }
-                
-                isDragging = false;
-                isSliderDrag = false;
-            });
-
-            // 클릭 이벤트 (핸들 근처가 아닐 때만)
-            wrapper.addEventListener('click', (e) => {
-                if (!isDragging && !isNearHandle(e)) {
-                    updateSlider(getPercentage(e));
-                }
-            });
-            
-            // 마우스 드래그 스와이프 (데스크탑)
-            let mouseStartX = 0;
-            let mouseStartTime = 0;
-            let isMouseDragging = false;
-            
-            wrapper.addEventListener('mousedown', (e) => {
-                if (!isNearHandle(e)) {
-                    mouseStartX = e.clientX;
-                    mouseStartTime = Date.now();
-                    isMouseDragging = true;
-                }
-            });
-            
-            wrapper.addEventListener('mouseup', (e) => {
-                if (isMouseDragging && !isSliderDrag) {
-                    const deltaX = e.clientX - mouseStartX;
-                    const deltaTime = Date.now() - mouseStartTime;
-                    
-                    // 마우스 드래그 스와이프 조건
-                    if (Math.abs(deltaX) > 50 && deltaTime < 500) {
-                        if (deltaX > 0) {
-                            navigateImage(-1); // 오른쪽 드래그 - 이전 이미지
-                        } else {
-                            navigateImage(1); // 왼쪽 드래그 - 다음 이미지
-                        }
-                    }
-                }
-                isMouseDragging = false;
-            });
-        }
 
         function toggleShorts() {
             const content = document.getElementById('shortsContent');
