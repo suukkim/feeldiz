@@ -1928,8 +1928,8 @@
         // 프로젝트별 이미지 데이터 (실제 이미지 URL로 교체하세요)
         const projectImages = {
             theniceguy: {
-                before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23666666'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E착한사나이 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
-                after: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%234ecdc4'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E착한사나이 - AFTER%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='white' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E"
+                before: "https://drive.google.com/file/d/1fYjK9cjPoAt2tAxJ3pgFVCIvGeHwBAvr/view?usp=sharing",
+                after: "https://drive.google.com/file/d/1g__BxYyEimvtNK1UgSZK1oQRJuh8BEEu/view?usp=drive_link"
             },
             veranda: {
                 before: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23555555'/%3E%3Ctext x='400' y='180' text-anchor='middle' fill='white' font-size='16' font-family='Arial'%3E베란다 - BEFORE%3C/text%3E%3Ctext x='400' y='220' text-anchor='middle' fill='%23ccc' font-size='12' font-family='Arial'%3E실제 이미지로 교체하세요%3C/text%3E%3C/svg%3E",
@@ -2086,6 +2086,12 @@
             const handle = wrapper.querySelector('.slider-handle');
             const afterImage = wrapper.querySelector('.image-after');
             let isDragging = false;
+            let isSliderDrag = false;
+            
+            // 스와이프 관련 변수
+            let startX = 0;
+            let startY = 0;
+            let startTime = 0;
 
             function updateSlider(percentage) {
                 const clampedPercentage = Math.max(0, Math.min(100, percentage));
@@ -2098,45 +2104,117 @@
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 return (x / rect.width) * 100;
             }
+            
+            function isNearHandle(e) {
+                const rect = wrapper.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const handlePosition = (parseFloat(handle.style.left) || 50) / 100 * rect.width;
+                return Math.abs(x - handlePosition) < 30; // 핸들 주변 30px 범위
+            }
 
             // 마우스 이벤트
             wrapper.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                updateSlider(getPercentage(e));
+                if (isNearHandle(e)) {
+                    isDragging = true;
+                    isSliderDrag = true;
+                    updateSlider(getPercentage(e));
+                }
             });
 
             document.addEventListener('mousemove', (e) => {
-                if (isDragging) {
+                if (isDragging && isSliderDrag) {
                     updateSlider(getPercentage(e));
                 }
             });
 
             document.addEventListener('mouseup', () => {
                 isDragging = false;
+                isSliderDrag = false;
             });
 
-            // 터치 이벤트
+            // 터치 이벤트 (스와이프 + 슬라이더)
             wrapper.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                updateSlider(getPercentage(e));
+                const touch = e.touches[0];
+                startX = touch.clientX;
+                startY = touch.clientY;
+                startTime = Date.now();
+                
+                if (isNearHandle(e)) {
+                    isDragging = true;
+                    isSliderDrag = true;
+                    updateSlider(getPercentage(e));
+                }
             });
 
-            document.addEventListener('touchmove', (e) => {
-                if (isDragging) {
+            wrapper.addEventListener('touchmove', (e) => {
+                if (isDragging && isSliderDrag) {
                     e.preventDefault();
                     updateSlider(getPercentage(e));
                 }
             });
 
-            document.addEventListener('touchend', () => {
+            wrapper.addEventListener('touchend', (e) => {
+                if (!isSliderDrag) {
+                    const touch = e.changedTouches[0];
+                    const endX = touch.clientX;
+                    const endY = touch.clientY;
+                    const endTime = Date.now();
+                    
+                    const deltaX = endX - startX;
+                    const deltaY = endY - startY;
+                    const deltaTime = endTime - startTime;
+                    
+                    // 스와이프 조건: 가로 이동 50px 이상, 세로 이동 100px 미만, 500ms 이내
+                    if (Math.abs(deltaX) > 50 && Math.abs(deltaY) < 100 && deltaTime < 500) {
+                        if (deltaX > 0) {
+                            // 오른쪽 스와이프 - 이전 이미지
+                            navigateImage(-1);
+                        } else {
+                            // 왼쪽 스와이프 - 다음 이미지
+                            navigateImage(1);
+                        }
+                    }
+                }
+                
                 isDragging = false;
+                isSliderDrag = false;
             });
 
-            // 클릭 이벤트
+            // 클릭 이벤트 (핸들 근처가 아닐 때만)
             wrapper.addEventListener('click', (e) => {
-                if (!isDragging) {
+                if (!isDragging && !isNearHandle(e)) {
                     updateSlider(getPercentage(e));
                 }
+            });
+            
+            // 마우스 드래그 스와이프 (데스크탑)
+            let mouseStartX = 0;
+            let mouseStartTime = 0;
+            let isMouseDragging = false;
+            
+            wrapper.addEventListener('mousedown', (e) => {
+                if (!isNearHandle(e)) {
+                    mouseStartX = e.clientX;
+                    mouseStartTime = Date.now();
+                    isMouseDragging = true;
+                }
+            });
+            
+            wrapper.addEventListener('mouseup', (e) => {
+                if (isMouseDragging && !isSliderDrag) {
+                    const deltaX = e.clientX - mouseStartX;
+                    const deltaTime = Date.now() - mouseStartTime;
+                    
+                    // 마우스 드래그 스와이프 조건
+                    if (Math.abs(deltaX) > 50 && deltaTime < 500) {
+                        if (deltaX > 0) {
+                            navigateImage(-1); // 오른쪽 드래그 - 이전 이미지
+                        } else {
+                            navigateImage(1); // 왼쪽 드래그 - 다음 이미지
+                        }
+                    }
+                }
+                isMouseDragging = false;
             });
         }
 
